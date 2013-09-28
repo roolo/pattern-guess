@@ -14,6 +14,14 @@
 
     <b>Content</b>
     <table class="pattern-container">
+
+      <input  type="hidden"
+              ng-model="patternId"
+              ng-init="patternId=<%= @pattern.id || 0 %>"
+              id="pattern-id"
+              value="<%= @pattern.id || 0 %>"
+      />
+
       <tr ng-repeat="line in content">
         <td class="col-md-1 pattern-cell-{{cellClassState(cell)}}"
             ng-repeat="cell in line"

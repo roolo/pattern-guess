@@ -3,18 +3,26 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 app = angular.module('pattern-guess', [])
-  .controller 'PatternFieldController', ($scope) ->
+  .controller 'PatternFieldController', ($scope, $http) ->
     $scope.content = [
-      [0,0,0,0,0,0,1,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,1,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,1,0],
+      [0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,1,0],
+      [0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0],
     ]
 
+    patternIdElement = angular.element '#pattern-id'
+
+    if patternIdElement.val() > 0
+      $http.get('/patterns/'+patternIdElement.val()+'.json')
+        .success (data) ->
+          $scope.content = data.content
+
+    # Choose CSS class
     $scope.cellClassState = (cell) ->
       if cell == 1
         'active'
@@ -29,6 +37,6 @@ app = angular.module('pattern-guess', [])
 
     $scope.$watch 'content',
       (newValue, oldValue, scope) ->
-        console.log 'Persist change from '+oldValue+' to '+newValue
+        ''
       ,
       true
