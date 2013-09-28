@@ -5,11 +5,11 @@
 app = angular.module('pattern-guess', [])
   .controller 'PatternFieldController', ($scope, $http) ->
     $scope.content = [
-      [0,0,0,0,0,0,1,0],
       [0,0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,1,0],
+      [0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0,0],
@@ -19,7 +19,7 @@ app = angular.module('pattern-guess', [])
 
     if patternIdElement.val() > 0
       $http.get('/patterns/'+patternIdElement.val()+'.json')
-        .success (data) ->
+        .success (data, status) ->
           $scope.content = data.content
 
     # Choose CSS class
@@ -37,6 +37,13 @@ app = angular.module('pattern-guess', [])
 
     $scope.$watch 'content',
       (newValue, oldValue, scope) ->
-        ''
+        $http.put(
+          '/patterns/'+patternIdElement.val()+'.json',
+          pattern: {
+            content: newValue
+          }
+        )
+          .success (data, status) ->
+            console.log status
       ,
       true

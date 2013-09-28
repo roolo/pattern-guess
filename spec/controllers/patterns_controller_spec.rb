@@ -23,134 +23,159 @@ describe PatternsController do
   # This should return the minimal set of attributes required to create a valid
   # Pattern. As you add validations to Pattern, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "content" => "MyString" } }
+  let(:valid_attributes) { { 'content' => 'MyString'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PatternsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all patterns as @patterns" do
+  describe 'GET index' do
+    it 'assigns all patterns as @patterns' do
       pattern = Pattern.create! valid_attributes
       get :index, {}, valid_session
       assigns(:patterns).should eq([pattern])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested pattern as @pattern" do
+  describe 'GET show' do
+    it 'assigns the requested pattern as @pattern' do
       pattern = Pattern.create! valid_attributes
       get :show, {:id => pattern.to_param}, valid_session
       assigns(:pattern).should eq(pattern)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new pattern as @pattern" do
+  describe 'GET new' do
+    it 'assigns a new pattern as @pattern' do
       get :new, {}, valid_session
       assigns(:pattern).should be_a_new(Pattern)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested pattern as @pattern" do
+  describe 'GET edit' do
+    it 'assigns the requested pattern as @pattern' do
       pattern = Pattern.create! valid_attributes
       get :edit, {:id => pattern.to_param}, valid_session
       assigns(:pattern).should eq(pattern)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Pattern" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Pattern' do
         expect {
           post :create, {:pattern => valid_attributes}, valid_session
         }.to change(Pattern, :count).by(1)
       end
 
-      it "assigns a newly created pattern as @pattern" do
+      it 'assigns a newly created pattern as @pattern' do
         post :create, {:pattern => valid_attributes}, valid_session
         assigns(:pattern).should be_a(Pattern)
         assigns(:pattern).should be_persisted
       end
 
-      it "redirects to the created pattern" do
+      it 'redirects to the created pattern' do
         post :create, {:pattern => valid_attributes}, valid_session
         response.should redirect_to(Pattern.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved pattern as @pattern" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved pattern as @pattern' do
         # Trigger the behavior that occurs when invalid params are submitted
         Pattern.any_instance.stub(:save).and_return(false)
-        post :create, {:pattern => { "content" => "invalid value" }}, valid_session
+        post :create, {:pattern => { 'content' => 'invalid value' }}, valid_session
         assigns(:pattern).should be_a_new(Pattern)
       end
 
-      it "re-renders the 'new' template" do
+      it 're-renders the new template' do
         # Trigger the behavior that occurs when invalid params are submitted
         Pattern.any_instance.stub(:save).and_return(false)
-        post :create, {:pattern => { "content" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        post :create, {:pattern => { 'content' => 'invalid value' }}, valid_session
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested pattern" do
-        pattern = Pattern.create! valid_attributes
-        # Assuming there are no other patterns in the database, this
-        # specifies that the Pattern created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Pattern.any_instance.should_receive(:update).with({ "content" => "MyString" })
-        put :update, {:id => pattern.to_param, :pattern => { "content" => "MyString" }}, valid_session
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested pattern' do
+        pattern_attributes = [
+          [0,0,0,0,0,0,1,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,1,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+        ]
+        new_pattern_content = [
+          [1,0,0,0,0,0,0,0],
+          [0,1,0,0,0,0,0,0],
+          [0,0,1,0,0,0,0,0],
+          [0,0,0,1,0,0,0,0],
+          [0,0,0,0,1,0,0,0],
+          [0,0,0,0,0,1,0,0],
+          [0,0,0,0,0,0,1,0],
+          [0,0,0,0,0,0,0,1],
+        ]
+
+        pattern = Pattern.create! guess_state: pattern_attributes
+
+        expect {
+          put :update,
+              { id: pattern.to_param,
+                pattern: { guess_state: new_pattern_content }
+              }
+          pattern.reload
+        }.to change{pattern.guess_state}
+          .from(pattern_attributes)
+          .to(new_pattern_content)
       end
 
-      it "assigns the requested pattern as @pattern" do
+      it 'assigns the requested pattern as @pattern' do
         pattern = Pattern.create! valid_attributes
         put :update, {:id => pattern.to_param, :pattern => valid_attributes}, valid_session
         assigns(:pattern).should eq(pattern)
       end
 
-      it "redirects to the pattern" do
+      it 'redirects to the pattern' do
         pattern = Pattern.create! valid_attributes
         put :update, {:id => pattern.to_param, :pattern => valid_attributes}, valid_session
         response.should redirect_to(pattern)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the pattern as @pattern" do
+    describe 'with invalid params' do
+      it 'assigns the pattern as @pattern' do
         pattern = Pattern.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Pattern.any_instance.stub(:save).and_return(false)
-        put :update, {:id => pattern.to_param, :pattern => { "content" => "invalid value" }}, valid_session
+        put :update, {:id => pattern.to_param, :pattern => { 'content' => 'invalid value' }}, valid_session
         assigns(:pattern).should eq(pattern)
       end
 
-      it "re-renders the 'edit' template" do
+      it 're-renders the edit template' do
         pattern = Pattern.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Pattern.any_instance.stub(:save).and_return(false)
-        put :update, {:id => pattern.to_param, :pattern => { "content" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        put :update, {:id => pattern.to_param, :pattern => { 'content' => 'invalid value' }}, valid_session
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested pattern" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested pattern' do
       pattern = Pattern.create! valid_attributes
       expect {
         delete :destroy, {:id => pattern.to_param}, valid_session
       }.to change(Pattern, :count).by(-1)
     end
 
-    it "redirects to the patterns list" do
+    it 'redirects to the patterns list' do
       pattern = Pattern.create! valid_attributes
       delete :destroy, {:id => pattern.to_param}, valid_session
       response.should redirect_to(patterns_url)

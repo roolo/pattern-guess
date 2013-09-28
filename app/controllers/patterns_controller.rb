@@ -69,6 +69,14 @@ class PatternsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pattern_params
-      params.require(:pattern).permit(:content, :guess_state)
+      out_params = params.require(:pattern).permit!
+
+      [:content, :guess_state].each do |attr_name|
+        out_params[attr_name] = params[:pattern][attr_name].map do |row|
+          row.map(&:to_i)
+        end if params[:pattern][attr_name]
+      end
+
+      out_params
     end
 end
