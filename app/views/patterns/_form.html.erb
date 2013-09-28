@@ -1,25 +1,39 @@
-<%= form_for(@pattern) do |f| %>
-  <% if @pattern.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@pattern.errors.count, "error") %> prohibited this pattern from being saved:</h2>
+<div ng-controller="PatternFieldController">
+  <%= form_for(@pattern) do |f| %>
+    <% if @pattern.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@pattern.errors.count, "error") %> prohibited this pattern from being saved:</h2>
 
-      <ul>
-      <% @pattern.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+        <ul>
+        <% @pattern.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <b>Content</b>
+    <table class="pattern-container">
+      <tr ng-repeat="line in content">
+        <td class="col-md-1 pattern-cell-{{cellClassState(cell)}}"
+            ng-repeat="cell in line"
+            ng-click="toggleCell($parent.$index, $index)" >
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+
+    <div class="field">
+      <%= f.label :content %><br>
+      <%= f.text_field :content, 'ng-model' => :content %>
+    </div>
+    <div class="field">
+      <%= f.label :guess_state %><br>
+      <%= f.text_field :guess_state %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :content %><br>
-    <%= f.text_field :content %>
-  </div>
-  <div class="field">
-    <%= f.label :guess_state %><br>
-    <%= f.text_field :guess_state %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

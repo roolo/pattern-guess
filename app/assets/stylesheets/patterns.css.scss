@@ -1,3 +1,10 @@
 // Place all the styles related to the Patterns controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.pattern-container {
+  td { border: 1px solid black; }
+
+  .pattern-cell-active    { background:  darkslategray;}
+  .pattern-cell-inactive  { background:  whitesmoke;}
+}
