@@ -71,10 +71,14 @@ class PatternsController < ApplicationController
     def pattern_params
       out_params = params.require(:pattern).permit!
 
-      [:content, :guess_state].each do |attr_name|
-        out_params[attr_name] = params[:pattern][attr_name].map do |row|
-          row.map(&:to_i)
-        end if params[:pattern][attr_name]
+      if params[:pattern][:create] == 'auto'
+        out_params = {}
+      else
+        [:content, :guess_state].each do |attr_name|
+          out_params[attr_name] = params[:pattern][attr_name].map do |row|
+            row.map(&:to_i)
+          end if params[:pattern][attr_name]
+        end
       end
 
       out_params

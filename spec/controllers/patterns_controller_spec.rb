@@ -101,16 +101,6 @@ describe PatternsController do
   describe 'PUT update' do
     describe 'with valid params' do
       it 'updates the requested pattern' do
-        pattern_attributes = [
-          [0,0,0,0,0,0,1,0],
-          [0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,1,0],
-          [0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0],
-          [0,0,0,0,0,0,0,0],
-        ]
         new_pattern_content = [
           [1,0,0,0,0,0,0,0],
           [0,1,0,0,0,0,0,0],
@@ -122,7 +112,7 @@ describe PatternsController do
           [0,0,0,0,0,0,0,1],
         ]
 
-        pattern = Pattern.create! guess_state: pattern_attributes
+        pattern = Pattern.create!
 
         expect {
           put :update,
@@ -131,7 +121,7 @@ describe PatternsController do
               }
           pattern.reload
         }.to change{pattern.guess_state}
-          .from(pattern_attributes)
+          .from(Pattern::EMPTY_PATTERN)
           .to(new_pattern_content)
       end
 
