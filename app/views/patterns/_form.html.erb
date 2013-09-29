@@ -13,7 +13,12 @@
     <% end %>
 
     <b>Content</b>
-    <table class="pattern-container">
+    <p>
+      <small>
+        Your changes are saved automatically as you change the pattern.
+      </small>
+    </p>
+    <div class="pattern-container pattern-container-big">
 
       <input  type="hidden"
               ng-model="patternId"
@@ -22,18 +27,18 @@
               value="<%= @pattern.id || 0 %>"
       />
 
-      <tr ng-repeat="line in content">
-        <td class="col-md-1 pattern-cell-{{cellClassState(cell)}}"
-            ng-repeat="cell in line"
-            ng-click="toggleCell($parent.$index, $index)" >
-          &nbsp;
-        </td>
-      </tr>
-    </table>
+      <div ng-repeat="line in content">
+        <div class="pattern-row">
+          <div class="pattern-cell pattern-cell-{{cellClassState(cell)}}"
+              ng-repeat="cell in line"
+              ng-click="toggleCell($parent.$index, $index)" >
+            &nbsp;
+          </div>
+        </div>
+        <br style="clear: both"/>
+      </div>
+    </div>
 
-    <p>
-      Your changes are saved automatically as you change the pattern.
-    </p>
   <% end %>
 
 </div>

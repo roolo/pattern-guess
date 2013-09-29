@@ -1,6 +1,12 @@
-<h1>Editing pattern</h1>
+<h2>Editing pattern</h2>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @pattern %> |
-<%= link_to 'Back', patterns_path %>
+<br class="clearfix" />
+
+<div class="btn-group">
+  <%= link_to 'Listing', patterns_path, class: 'btn btn-default' %>
+  <%= link_to 'Show', @pattern, class: 'btn btn-primary' %>
+</div>
+
+<br class="clearfix" />

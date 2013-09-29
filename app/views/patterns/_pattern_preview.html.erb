@@ -1,0 +1,10 @@
+<% pattern_content.each do |row| %>
+  <div class="pattern-row">
+    <% row.each do |cell| %>
+      <div class="pattern-cell pattern-cell-<%= cell == 1 ? :active : :inactive %>">
+        &nbsp;
+      </div>
+    <% end %>
+  </div>
+  <div class="clearfix"></div>
+<% end %>

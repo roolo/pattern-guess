@@ -1,4 +1,4 @@
-<h1>Listing patterns</h1>
+<h2>Listing patterns</h2>
 
 <table class="table table-striped table-hover">
   <thead>
@@ -6,19 +6,33 @@
       <th>Content</th>
       <th>Guess state</th>
       <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @patterns.each do |pattern| %>
       <tr>
-        <td><%= pattern.content %></td>
-        <td><%= pattern.guess_state %></td>
-        <td><%= link_to 'Show', pattern %></td>
-        <td><%= link_to 'Edit', edit_pattern_path(pattern) %></td>
-        <td><%= link_to 'Destroy', pattern, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to edit_pattern_path(pattern), title: 'Edit pattern' do %>
+            <div class="pattern-container pattern-container-small">
+              <%= render partial: 'patterns/pattern_preview',
+                         locals: {pattern_content: pattern.content} %>
+            </div>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to pattern_path(pattern), title: 'Edit guess for pattern' do %>
+            <div class="pattern-container pattern-container-small">
+              <%= render partial: 'patterns/pattern_preview',
+                         locals: {pattern_content: pattern.guess_state} %>
+            </div>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'Destroy', @pattern,  class: 'btn btn-danger',
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,25 +1,36 @@
+<h2>Show – Let's guess the pattern</h2>
+
+<% action_nav = capture do %>
+<br class="clearfix" />
+
+<div class="btn-group">
+  <%= link_to 'Listing', patterns_path, class: 'btn btn-default' %>
+  <%= link_to 'Edit', edit_pattern_path(@pattern), class: 'btn btn-primary' %>
+  <%= link_to 'Destroy', @pattern,  class: 'btn btn-danger',
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %>
+</div>
+
+<br class="clearfix" />
+<% end %>
+
+<%= action_nav %>
+
 <p id="notice"><%= notice %></p>
 
-<p>
+<div>
   <strong>Content:</strong>
-  <table class="pattern-container">
-    <% @pattern.content.each do |row| %>
-      <tr>
-        <% row.each do |cell| %>
-          <td class="col-md-1 pattern-cell-<%= cell == 1 ? :active : :inactive %>">
-            &nbsp;
-          </td>
-        <% end %>
-      </tr>
-    <% end %>
-    <caption class="text-left small">Just for reference. NOT MUTABLE. </caption>
-  </table>
-</p>
+  <small class="text-left">Just for reference. IMUTABLE. </small>
+  <div class="pattern-container pattern-container-big">
+    <%= render partial: 'patterns/pattern_preview',
+               locals: {pattern_content: @pattern.content} %>
+  </div>
+</div>
 
-<p>
+<div>
   <strong>Guess state:</strong>
   <div ng-controller="PatternGuessController">
-    <table class="pattern-container">
+    <div class="pattern-container pattern-container-big">
 
       <input  type="hidden"
               ng-model="patternId"
@@ -28,19 +39,18 @@
               value="<%= @pattern.id %>"
       />
 
-      <tr ng-repeat="line in guessState">
-        <td class="col-md-1 pattern-cell-{{cellClassState(cell)}}"
-            ng-repeat="cell in line"
-            ng-click="toggleCell($parent.$index, $index)" >
-          &nbsp;
-        </td>
-      </tr>
-    </table>
+      <div ng-repeat="line in guessState">
+        <div class="pattern-row">
+          <div class="pattern-cell pattern-cell-{{cellClassState(cell)}}"
+              ng-repeat="cell in line"
+              ng-click="toggleCell($parent.$index, $index)" >
+            &nbsp;
+          </div>
+        </div>
+        <br style="clear: both"/>
+      </div>
+    </div>
   </div>
-</p>
+</div>
 
-[
-<%= link_to 'Edit', edit_pattern_path(@pattern) %> |
-<%= link_to 'Destroy', @pattern, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', patterns_path %>
-]
+<%= action_nav %>
