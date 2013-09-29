@@ -28,7 +28,7 @@ class PatternsController < ApplicationController
 
     respond_to do |format|
       if @pattern.save
-        format.html { redirect_to @pattern, notice: 'Pattern was successfully created.' }
+        format.html { redirect_to edit_pattern_path(@pattern), notice: 'Pattern was successfully created.' }
         format.json { render action: 'show', status: :created, location: @pattern }
       else
         format.html { render action: 'new' }
@@ -71,7 +71,7 @@ class PatternsController < ApplicationController
     def pattern_params
       out_params = params.require(:pattern).permit!
 
-      if params[:pattern][:create] == 'auto'
+      if params[:action] == 'create'
         out_params = {}
       else
         [:content, :guess_state].each do |attr_name|

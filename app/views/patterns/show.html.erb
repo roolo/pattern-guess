@@ -2,13 +2,45 @@
 
 <p>
   <strong>Content:</strong>
-  <%= @pattern.content %>
+  <table class="pattern-container">
+    <% @pattern.content.each do |row| %>
+      <tr>
+        <% row.each do |cell| %>
+          <td class="col-md-1 pattern-cell-<%= cell == 1 ? :active : :inactive %>">
+            &nbsp;
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+    <caption class="text-left small">Just for reference. NOT MUTABLE. </caption>
+  </table>
 </p>
 
 <p>
   <strong>Guess state:</strong>
-  <%= @pattern.guess_state %>
+  <div ng-controller="PatternGuessController">
+    <table class="pattern-container">
+
+      <input  type="hidden"
+              ng-model="patternId"
+              ng-init="patternId=<%= @pattern.id %>"
+              id="pattern-id"
+              value="<%= @pattern.id %>"
+      />
+
+      <tr ng-repeat="line in guessState">
+        <td class="col-md-1 pattern-cell-{{cellClassState(cell)}}"
+            ng-repeat="cell in line"
+            ng-click="toggleCell($parent.$index, $index)" >
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+  </div>
 </p>
 
+[
 <%= link_to 'Edit', edit_pattern_path(@pattern) %> |
+<%= link_to 'Destroy', @pattern, method: :delete, data: { confirm: 'Are you sure?' } %> |
 <%= link_to 'Back', patterns_path %>
+]
