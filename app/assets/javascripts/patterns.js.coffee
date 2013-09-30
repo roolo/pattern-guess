@@ -2,9 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-app = angular.module('pattern-guess', [])
+app = angular.module('pattern-guess', ['ng-rails-csrf'])
   .controller 'PatternFieldController', ($scope, $http) ->
     patternIdElement = angular.element '#pattern-id'
+    $scope.editorInitialized = false
 
     if patternIdElement.val() > 0
       $http.get('/patterns/'+patternIdElement.val()+'.json')
@@ -19,6 +20,7 @@ app = angular.module('pattern-guess', [])
         'inactive'
 
     $scope.toggleCell = (row, index) ->
+      $scope.editorInitialized = true
       if $scope.content[row][index] == 1
         $scope.content[row][index] = 0
       else
@@ -26,18 +28,20 @@ app = angular.module('pattern-guess', [])
 
     $scope.$watch 'content',
       (newValue, oldValue, scope) ->
-        $http.put(
-          '/patterns/'+patternIdElement.val()+'.json',
-          pattern: {
-            content: newValue
-          }
-        )
-          .success (data, status) ->
-            console.log status
+        if $scope.editorInitialized
+          $http.put(
+            '/patterns/'+patternIdElement.val()+'.json',
+            pattern: {
+              content: newValue
+            }
+          )
+            .success (data, status) ->
+              console.log status
       ,
       true
   .controller 'PatternGuessController', ($scope, $http) ->
     patternIdElement = angular.element '#pattern-id'
+    $scope.editorInitialized = false
 
     if patternIdElement.val() > 0
       $http.get('/patterns/'+patternIdElement.val()+'.json')
@@ -53,6 +57,7 @@ app = angular.module('pattern-guess', [])
         'inactive'
 
     $scope.toggleCell = (row, index) ->
+      $scope.editorInitialized = true
       if $scope.guessState[row][index] == 1
         $scope.guessState[row][index] = 0
       else
