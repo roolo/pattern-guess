@@ -53,4 +53,19 @@
   </div>
 </div>
 
+<div class="modal face" id="successModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Successful step!</h4>
+      </div>
+      <div class="modal-body">
+        You've just matched the original pattern.
+        Let's <%= link_to 'create new pattern', new_pattern_path %>.
+      </div>
+    </div>
+  </div>
+</div>
+
 <%= action_nav %>

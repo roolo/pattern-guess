@@ -72,6 +72,7 @@ app = angular.module('pattern-guess', ['ng-rails-csrf'])
           )
             .success (data, status) ->
               if angular.equals($scope.content, $scope.guessState)
+                angular.element('#successModal').modal('show')
                 console.log 'WELL DONE!'
       ,
       true
