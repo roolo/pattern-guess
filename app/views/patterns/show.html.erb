@@ -62,7 +62,11 @@
       </div>
       <div class="modal-body">
         You've just matched the original pattern.
-        Let's <%= link_to 'create new pattern', new_pattern_path %>.
+        Let's <%= link_to 'create new pattern',
+                          url_for(  action: :create,
+                                    pattern: {create: :auto}
+                          ),
+                          method: :post %>
       </div>
     </div>
   </div>
